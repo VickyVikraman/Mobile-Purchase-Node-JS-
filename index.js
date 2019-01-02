@@ -105,4 +105,18 @@ app.get("/images",(req,res)=>{
     })
 })
 
+app.post("/buy",(req,res)=>{
+    for(let i=0;i<req.body.length;i++)
+    {
+        get.query("UPDATE `mobile` set `stock`=? where `mobile_id`=? ",[req.body[i].qty,req.body[i].id],function(err,result){
+            // res.send(result.affectedRows);
+            if(err) throw err;
+            console.log(result)
+            get.query("UPDATE cart set `incart`=0 where `mobile_id`=?",[req.body[i].id],function(errCart,resultCart){
+                console.log(resultCart)
+            })
+        })
+    }
+})
+
 app.listen(5000);
